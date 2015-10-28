@@ -1,4 +1,6 @@
-import java.io.InputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
@@ -7,10 +9,16 @@ import java.util.regex.Pattern;
  */
 public class TextExtractor implements Callable<Found> {
     private Pattern regex;
-    private InputStream textInput;
+    private Scanner input;
 
-    public TextExtractor() {
+    public TextExtractor(Pattern regex) {
+        this.regex = regex;
+        input = new Scanner(System.in);
+    }
 
+    public TextExtractor(Pattern regex, File inputFile) throws FileNotFoundException {
+        this.regex = regex;
+        input = new Scanner(inputFile);
     }
 
     @Override

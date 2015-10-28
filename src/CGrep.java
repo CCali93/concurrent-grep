@@ -8,9 +8,6 @@ import java.util.regex.Pattern;
  */
 public class CGrep {
     public static void main(String[] args) {
-        int cores = Runtime.getRuntime().availableProcessors();
-        //TODO: list of workers initialization
-
         if(args.length == 0) {
             System.out.println("ERROR! Must provide a regex pattern");
         } else {
