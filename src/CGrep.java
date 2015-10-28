@@ -1,5 +1,7 @@
+import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Pattern;
 
 /**n
  * Created by curtis on 10/27/15.
@@ -12,11 +14,16 @@ public class CGrep {
         if(args.length == 0) {
             System.out.println("ERROR! Must provide a regex pattern");
         } else {
-            String regex = args[0];
-            ExecutorService grepPool = Executors.newCachedThreadPool();
+            Pattern regex = Pattern.compile(args[0]);
+            ExecutorService grepPool = Executors.newFixedThreadPool(3);
+            ExecutorCompletionService<Found> completionPool =
+                new ExecutorCompletionService<Found>(grepPool);
 
             if (args.length >= 2) {
                 //Files are the input, loop through files
+                for (int i = 1; i < args.length; i++) {
+
+                }
             } else {
                 //Take input from stdin
             }
