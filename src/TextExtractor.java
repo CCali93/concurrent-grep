@@ -1,7 +1,9 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -9,20 +11,43 @@ import java.util.regex.Pattern;
  */
 public class TextExtractor implements Callable<Found> {
     private Pattern regex;
-    private Scanner input;
+    private FileInputStream input;
+    private Found result;
 
-    public TextExtractor(Pattern regex) {
-        this.regex = regex;
-        input = new Scanner(System.in);
-    }
-
+    /**
+     *
+     * @param regex - the regular expression to search for
+     * @param inputFile - Text file to scan
+     * @throws FileNotFoundException
+     */
     public TextExtractor(Pattern regex, File inputFile) throws FileNotFoundException {
         this.regex = regex;
-        input = new Scanner(inputFile);
+        this.input =  new FileInputStream(inputFile);
     }
 
+
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     @Override
     public Found call() throws Exception {
-        return null;
+        String currentLine;
+        int lineCount = 0; // Current line number
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(this.input));
+
+        while ((currentLine = reader.readLine()) != null) {
+            Matcher match = this.regex.matcher(currentLine);
+
+            if (match.find()) {
+                result.addLine(lineCount + " " + currentLine);
+            }
+
+            lineCount++;
+        }
+
+        return result;
     }
 }
