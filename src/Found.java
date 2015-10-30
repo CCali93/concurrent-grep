@@ -13,7 +13,7 @@ public class Found {
      *
      */
     public Found() {
-        matchingLines = new ArrayList<>();
+        matchingLines = new ArrayList<String>();
     }
 
     /**

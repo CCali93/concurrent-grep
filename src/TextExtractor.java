@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 public class TextExtractor implements Callable<Found> {
     private Pattern regex;
     private FileInputStream input;
-    private Found result;
 
     /**
      *
@@ -22,7 +21,7 @@ public class TextExtractor implements Callable<Found> {
      */
     public TextExtractor(Pattern regex, File inputFile) throws FileNotFoundException {
         this.regex = regex;
-        this.input =  new FileInputStream(inputFile);
+        this.input = new FileInputStream(inputFile);
     }
 
 
@@ -33,8 +32,10 @@ public class TextExtractor implements Callable<Found> {
      */
     @Override
     public Found call() throws Exception {
+        Found result = new Found();
+
         String currentLine;
-        int lineCount = 0; // Current line number
+        int lineCount = 1; // Current line number
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(this.input));
 
@@ -47,6 +48,8 @@ public class TextExtractor implements Callable<Found> {
 
             lineCount++;
         }
+
+        reader.close();
 
         return result;
     }
